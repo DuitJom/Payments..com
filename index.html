@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WantKash - Portal Pembayaran</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #1a365d;
+            margin: 0;
+            font-size: 32px;
+            font-weight: 800;
+        }
+        .header p {
+            color: #718096;
+            margin-top: 5px;
+            font-size: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #3182ce;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+        .btn {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #2b6cb0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>WantKash</h1>
+        <p>Portal Pembayaran Pinjaman Rasmi</p>
+    </div>
+
+    <form id="paymentForm">
+        <div class="form-group">
+            <label for="name">Nama Penuh</label>
+            <input type="text" id="name" placeholder="Contoh: Ali bin Abu" required>
+        </div>
+
+        <div class="form-group">
+            <label for="loanNumber">Nombor Akaun / ID Pinjaman</label>
+            <input type="text" id="loanNumber" placeholder="Contoh: WK-882910" required>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Jumlah Bayaran (RM)</label>
+            <input type="number" id="amount" placeholder="0.00" min="1" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+            <label for="method">Kaedah Pembayaran</label>
+            <select id="method" required>
+                <option value="" disabled selected>Pilih kaedah...</option>
+                <option value="Perbankan Dalam Talian (FPX)">Perbankan Dalam Talian (FPX)</option>
+                <option value="Kad Kredit/Debit">Kad Kredit / Debit</option>
+                <option value="E-Wallet">Touch 'n Go / Boost E-Wallet</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Teruskan Bayaran</button>
+    </form>
+
+    <div class="footer">
+        &copy; 2026 WantKash. Dilindungi dengan penyulitan 256-bit.
+    </div>
+</div>
+
+<script>
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        // Mengelakkan halaman dari refresh bila butang ditekan
+        e.preventDefault(); 
+        
+        // Mengambil data dari borang
+        const name = document.getElementById('name').value;
+        const amount = document.getElementById('amount').value;
+        const method = document.getElementById('method').value;
+
+        // Memaparkan mesej (Simulasi sebelum dihubungkan ke sistem bank sebenar)
+        alert(`Terima kasih, ${name}!\n\nPermintaan bayaran sebanyak RM${amount} menggunakan ${method} sedang diproses.\n\nSistem akan membawa anda ke halaman selamat bank/pembekal bayaran sebentar lagi.`);
+        
+        // Reset borang selepas butang ditekan (Pilihan)
+        // this.reset();
+    });
+</script>
+
+</body>
+</html>
