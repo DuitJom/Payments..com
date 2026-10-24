@@ -318,27 +318,135 @@
                 Keputusan Kemas-Kini 100% dijana oleh Komputer A.I GitHub untuk dapatkan keputusan serta merta.
             </p>
 
-            <div class="w-full max-w-xs mb-16">
+            <div class="w-full max-w-md mb-12">
                 
-                <!-- Butang Pembayaran (Disembunyikan pada awalnya) -->
-                <button id="btnPembayaranPinjaman" onclick="goToPaymentPage()" class="hidden w-full bg-blue-400 hover:bg-blue-500 text-white font-bold text-md px-6 py-4 rounded-xl shadow-lg shadow-blue-400/30 transition duration-200 mb-6 flex justify-center items-center gap-2">
-                    Pembayaran Pinjaman <i class="fas fa-arrow-right text-sm"></i>
-                </button>
-
-                <!-- GOOGLE OAUTH LOGIN (Halaman Utama) -->
-                <div id="googleSignInSection" class="border-t border-gray-300 relative mt-4 pt-8">
-                    <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#FAF6F0] px-3 text-xs text-gray-500 font-medium whitespace-nowrap">atau log masuk dengan</span>
+                <!-- KAD AUTHENTICATION LENGKAP (LOGIN & REGISTER) -->
+                <div id="authCardSection" class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 text-left relative overflow-hidden transition-all duration-300">
                     
-                    <!-- Arahan kepada pelanggan -->
-                    <p class="text-[13px] text-red-600 font-bold mb-4 leading-tight">
-                     Sila Log Masuk menggunakan Email yang sama di daftarkan di www.duitjom.com
-                    </p>
-                    
-                    <div class="flex justify-center w-full">
-                        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"></div>
+                    <!-- TAB NAVIGATION: LOG MASUK / DAFTAR -->
+                    <div class="flex bg-slate-100 p-1.5 rounded-2xl mb-6 relative">
+                        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2.5 rounded-xl text-xs font-extrabold text-blue-600 bg-white shadow-xs transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-sign-in-alt text-xs"></i> Log Masuk
+                        </button>
+                        <button type="button" id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2.5 rounded-xl text-xs font-extrabold text-gray-500 hover:text-slate-800 transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-user-plus text-xs"></i> Daftar Akaun
+                        </button>
                     </div>
+
+                    <!-- FORM 1: LOG MASUK (LOGIN FORM) -->
+                    <form id="loginForm" onsubmit="handleDirectLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1.5">Email / ID Pengguna *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" id="loginEmail" required placeholder="contoh@email.com" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="block text-xs font-bold text-slate-800">Kata Laluan *</label>
+                                <a href="javascript:void(0)" onclick="alert('Sila hubungi sokongan pelanggan atau log masuk menggunakan Google Email anda.')" class="text-[11px] text-blue-500 hover:underline font-semibold">Lupa kata laluan?</a>
+                            </div>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                                <button type="button" onclick="togglePasswordVisibility('loginPassword', 'toggleLoginIcon')" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-gray-600 cursor-pointer">
+                                    <i id="toggleLoginIcon" class="fas fa-eye text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-extrabold text-sm py-3.5 rounded-xl shadow-lg shadow-blue-500/25 transition duration-200 flex justify-center items-center gap-2 cursor-pointer">
+                                <i class="fas fa-sign-in-alt text-xs"></i> Log Masuk Akaun
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- FORM 2: DAFTAR AKAUN (REGISTER FORM) -->
+                    <form id="registerForm" onsubmit="handleDirectRegister(event)" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1.5">Nama Penuh (Mengikut IC) *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" id="regName" required placeholder="Nama Penuh Anda" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1.5">Email *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" id="regEmail" required placeholder="contoh@email.com" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1.5">Nombor Telefon *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                <input type="text" id="regPhone" required placeholder="0123456789" maxlength="11" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1.5">Kata Laluan *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 text-sm">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" id="regPassword" required placeholder="Minima 6 aksara" minlength="6" class="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none text-sm transition">
+                                <button type="button" onclick="togglePasswordVisibility('regPassword', 'toggleRegIcon')" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-gray-600 cursor-pointer">
+                                    <i id="toggleRegIcon" class="fas fa-eye text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-extrabold text-sm py-3.5 rounded-xl shadow-lg shadow-emerald-500/25 transition duration-200 flex justify-center items-center gap-2 cursor-pointer">
+                                <i class="fas fa-user-check text-xs"></i> Daftar Akaun Baharu
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- GOOGLE OAUTH LOGIN (Di bawah Form) -->
+                    <div id="googleSignInSection" class="border-t border-gray-100 relative mt-6 pt-6 text-center">
+                        <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-3 text-[11px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">atau log masuk dengan</span>
+
+                        <p class="text-[12px] text-red-600 font-bold mb-3 leading-snug">
+                            Sila guna email yang berdaftar di www.duitjom.com
+                        </p>
+
+                        <div class="flex justify-center w-full">
+                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"></div>
+                        </div>
+                    </div>
+
+                    <!-- BUTANG PEMBAYARAN PINJAMAN (MUNCUL SELEPAS LOG MASUK/DAFTAR BERJAYA) -->
+                    <div id="postLoginSection" class="hidden flex-col items-center text-center space-y-4 pt-2">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mx-auto mb-1 animate-bounce">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-slate-900">Log Masuk Berjaya!</h3>
+                        <p class="text-xs text-gray-600 max-w-xs">Anda kini telah log masuk. Sila tekan butang di bawah untuk meneruskan proses Pembayaran Pinjaman anda.</p>
+                        <button id="btnPembayaranPinjaman" onclick="goToPaymentPage()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-sm px-6 py-4 rounded-xl shadow-lg shadow-blue-500/30 transition duration-200 flex justify-center items-center gap-2 cursor-pointer">
+                            Teruskan Pembayaran Pinjaman <i class="fas fa-arrow-right text-sm"></i>
+                        </button>
+                    </div>
+
                 </div>
-                <!-- END GOOGLE OAUTH LOGIN -->
+                <!-- END KAD AUTHENTICATION -->
                 
                 <!-- DuitJom News Hub -->
 <section class="duitjom-news">
@@ -1166,33 +1274,108 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // FUNGSI CALLBACK GOOGLE OAUTH LOGIN (BARU & LENGKAP)
+        // FUNGSI PERTUKARAN TAB AUTHENTICATION (LOGIN / REGISTER)
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const tabLoginBtn = document.getElementById("tabLoginBtn");
+            const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+
+            if (tab === 'login') {
+                loginForm.classList.remove("hidden");
+                registerForm.classList.add("hidden");
+
+                tabLoginBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-extrabold text-blue-600 bg-white shadow-xs transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer";
+                tabRegisterBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-extrabold text-gray-500 hover:text-slate-800 transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer";
+            } else {
+                loginForm.classList.add("hidden");
+                registerForm.classList.remove("hidden");
+
+                tabRegisterBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-extrabold text-emerald-600 bg-white shadow-xs transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer";
+                tabLoginBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-extrabold text-gray-500 hover:text-slate-800 transition duration-200 flex justify-center items-center gap-1.5 cursor-pointer";
+            }
+        }
+
+        // FUNGSI TAMPIL / SEMBUNYI KATA LALUAN
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        // FUNGSI PROSES LOG MASUK
+        function handleDirectLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById("loginEmail").value;
+
+            // Simpan status login
+            localStorage.setItem("userLogin", "success");
+            localStorage.setItem("userEmail", email);
+
+            showLoginSuccessFlow();
+        }
+
+        // FUNGSI PROSES PENDAFTARAN
+        function handleDirectRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById("regName").value;
+            const email = document.getElementById("regEmail").value;
+            const phone = document.getElementById("regPhone").value;
+
+            // Pra-isi maklumat pendaftaran ke form pembayaran
+            if (document.getElementById("inputNama")) document.getElementById("inputNama").value = name;
+            if (document.getElementById("inputPhone")) document.getElementById("inputPhone").value = phone;
+
+            localStorage.setItem("userLogin", "success");
+            localStorage.setItem("userEmail", email);
+
+            showLoginSuccessFlow();
+        }
+
+        // ALIRAN POPUP / SPINNER SELEPAS LOG MASUK ATAU REGISTER
+        function showLoginSuccessFlow() {
+            closeSidebar();
+
+            const spinnerOverlay = document.getElementById("loginSpinnerOverlay");
+            if (spinnerOverlay) {
+                spinnerOverlay.classList.remove("hidden");
+                spinnerOverlay.classList.add("flex");
+            }
+
+            setTimeout(() => {
+                if (spinnerOverlay) {
+                    spinnerOverlay.classList.add("hidden");
+                    spinnerOverlay.classList.remove("flex");
+                }
+
+                // Sembunyikan form & google login section, tunjukkan skrin pengesahan/butang pembayaran
+                const loginForm = document.getElementById("loginForm");
+                const registerForm = document.getElementById("registerForm");
+                const tabNav = document.querySelector("#authCardSection .flex.bg-slate-100");
+                const googleSec = document.getElementById("googleSignInSection");
+                const postLoginSec = document.getElementById("postLoginSection");
+
+                if (loginForm) loginForm.classList.add("hidden");
+                if (registerForm) registerForm.classList.add("hidden");
+                if (tabNav) tabNav.classList.add("hidden");
+                if (googleSec) googleSec.classList.add("hidden");
+                if (postLoginSec) postLoginSec.classList.remove("hidden");
+            }, 3000);
+        }
+
+        // FUNGSI CALLBACK GOOGLE OAUTH LOGIN
         function handleGoogleLogin(response) {
             console.log("Google Login berjaya");
-            
-            // Simpan status login
             localStorage.setItem("googleLogin", "success");
-
-            // 1. Tutup Sidebar jika pelanggan log masuk melalui sidebar
-            closeSidebar();
-            
-            // 2. Sembunyikan ruangan butang Google Sign In agar kelihatan kemas
-            document.getElementById("googleSignInSection").classList.add("hidden");
-
-            // 3. Tunjukkan skrin Loading 5 saat (Spinner Log Masuk)
-            const spinnerOverlay = document.getElementById("loginSpinnerOverlay");
-            spinnerOverlay.classList.remove("hidden");
-            spinnerOverlay.classList.add("flex"); // aktifkan flexbox
-
-            // Tunggu 5 saat
-            setTimeout(() => {
-                // Sembunyikan spinner log masuk
-                spinnerOverlay.classList.add("hidden");
-                spinnerOverlay.classList.remove("flex");
-
-                // Munculkan butang Pembayaran Pinjaman secara automatik
-                document.getElementById("btnPembayaranPinjaman").classList.remove("hidden");
-            }, 5000);
+            showLoginSuccessFlow();
         }
     </script>
 
